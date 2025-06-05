@@ -21,11 +21,15 @@ function fetchData()
                 'status' => 'success',
                 'data' => $users
             ]);
-            // foreach($users as $user) {
-            //     echo "ID: " . $user['id'] . "<br>";
-            //     echo "Name: " . $user['username'] . "<br>";
-            //     echo "Email: " . $user['email'] . "<br>";
-        // }
+
+            /*
+            foreach($users as $user) {
+                echo "ID: " . $user['id'] . "<br>";
+                echo "Name: " . $user['username'] . "<br>";
+                echo "Email: " . $user['email'] . "<br>";
+            }
+            */
+
     } else {
             echo json_encode([
                 'status' => 'error',
