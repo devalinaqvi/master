@@ -35,3 +35,33 @@ function fetchInventory()
         ]);
     }
 }
+
+function addInventory($data)
+{
+    try {
+        $pdo = Database::getInstance()->getConnection();
+
+        $stmt = $pdo->prepare("INSERT INTO inventory (name, quantity, price) VALUES (:name, :quantity, :price)");
+        $stmt->bindParam(':name', $data['name']);
+        $stmt->bindParam(':quantity', $data['quantity']);
+        $stmt->bindParam(':price', $data['price']);
+
+        if($stmt->execute()) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Inventory item added successfully'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to add inventory item'
+            ]);
+        }
+    } catch(PDOException $e) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+}
