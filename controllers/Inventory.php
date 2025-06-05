@@ -65,3 +65,34 @@ function addInventory($data)
         ]);
     }
 }
+
+function updateInventory($id, $data)
+{
+    try {
+        $pdo = Database::getInstance()->getConnection();
+
+        $stmt = $pdo->prepare("UPDATE inventory SET name = :name, quantity = :quantity, price = :price WHERE id = :id");
+        $stmt->bindParam(':name', $data['name']);
+        $stmt->bindParam(':quantity', $data['quantity']);
+        $stmt->bindParam(':price', $data['price']);
+        $stmt->bindParam(':id', $id);
+
+        if($stmt->execute()) {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Inventory item updated successfully'
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to update inventory item'
+            ]);
+        }
+    } catch(PDOException $e) {
+        header('Content-Type: application/json');
+        echo json_encode([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+}
